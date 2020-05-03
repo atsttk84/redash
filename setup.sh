@@ -3,6 +3,10 @@ set -eu
 
 REDASH_BASE_PATH=$(pwd)
 
+genpw() {
+    < /dev/urandom tr -dc 0-9a-zA-Z-_.~ | head -c12
+}
+
 create_directories() {
     if [[ ! -e $REDASH_BASE_PATH ]]; then
         mkdir -p $REDASH_BASE_PATH
@@ -19,9 +23,9 @@ create_config() {
         touch $REDASH_BASE_PATH/env
     fi
 
-    COOKIE_SECRET=$(pwgen -1s 32)
-    SECRET_KEY=$(pwgen -1s 32)
-    POSTGRES_PASSWORD=$(pwgen -1s 32)
+    COOKIE_SECRET=$(genpw)
+    SECRET_KEY=$(genpw)
+    POSTGRES_PASSWORD=$(genpw)
     REDASH_DATABASE_URL="postgresql://postgres:${POSTGRES_PASSWORD}@postgres/postgres"
 
     echo "PYTHONUNBUFFERED=0" >> $REDASH_BASE_PATH/env

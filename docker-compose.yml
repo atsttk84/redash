@@ -33,6 +33,7 @@ services:
     environment:
       QUEUES: "queries"
       WORKERS_COUNT: 2
+      REDASH_ADDITIONAL_QUERY_RUNNERS: redash.query_runner.python,redash.query_runner.script
   redis:
     image: redis:alpine
     restart: always
