@@ -1,6 +1,6 @@
 version: "2"
 x-redash-service: &redash-service
-  image: redash/redash
+  image: redash/redash:10.0.0.b50363
   depends_on:
     - postgres
     - redis
@@ -34,11 +34,17 @@ services:
       QUEUES: "queries"
       WORKERS_COUNT: 2
       REDASH_ADDITIONAL_QUERY_RUNNERS: redash.query_runner.python,redash.query_runner.script
+  worker:
+    <<: *redash-service
+    command: worker
+    environment:
+      QUEUES: "periodic emails default"
+      WORKERS_COUNT: 1
   redis:
-    image: redis:alpine
+    image: redis:5.0-alpine
     restart: always
   postgres:
-    image: postgres:9-alpine
+    image: postgres:9.6-alpine
     env_file: $PWD/env
     volumes:
       - $PWD/postgres-data:/var/lib/postgresql/data
