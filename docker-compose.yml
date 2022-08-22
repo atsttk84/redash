@@ -1,6 +1,6 @@
 version: "2"
 x-redash-service: &redash-service
-  image: redash/redash:10.0.0.b50363
+  image: redash/redash:${DOCKER_TAG}
   depends_on:
     - postgres
     - redis

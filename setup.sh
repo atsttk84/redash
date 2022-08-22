@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
+export DOCKER_TAG=$(git branch --show-current)
 REDASH_BASE_PATH=$(pwd)
 
 genpw() {
